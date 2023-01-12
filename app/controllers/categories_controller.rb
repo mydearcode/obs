@@ -18,7 +18,7 @@ class CategoriesController < ApplicationController
   # POST /categories
   def create
     @category = Category.new(category_params)
-    
+    @category.cuid = @category.id
 
     if @category.save
       @category.cuid = @category.id
@@ -50,6 +50,6 @@ class CategoriesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def category_params
-      params.require(:category).permit(:title, :cuid, :parent_id, metrics_attributes:[:title])
+      params.require(:category).permit(:title, :parent_id, :cuid, metrics_attributes:[:title])
     end
 end
