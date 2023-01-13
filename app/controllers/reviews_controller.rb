@@ -20,6 +20,7 @@ class ReviewsController < ApplicationController
     @review = @reviewable.reviews.new(review_params)
     
     if @review.save
+      #@product = Product.find_by(id: @review.product_id).calculate_average
       render json: @review, include: :review_responses, status: :created
     else
       render json: @review.errors, status: :unprocessable_entity

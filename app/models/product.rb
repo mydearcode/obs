@@ -5,14 +5,15 @@ class Product < ApplicationRecord
   friendly_id :title, use: :slugged
 
 
-
-
-
-#   def calculate_total_amount
-#     self.review_responses.each do |res|
-#      self.total_rate += res.rate
-#      end
-#      y = (self.total_rate / self.review_responses.size).to_f
-#      self.update_column(:total_rate, y)
-#  end
+  def calculate_average
+    x = 0
+    z = self.reviews.size
+    self.reviews.each do |rev|
+     x += rev.total_rate
+     end
+     y = (x / z).to_f
+     #self.update_column(:average_rate, 0)
+     self.update_attribute(:average_rate, y)
+     #self.save!
+ end
 end

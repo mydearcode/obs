@@ -6,11 +6,15 @@ class Review < ApplicationRecord
   after_save :calculate_total_amount
 
   def calculate_total_amount
+    x = 0
+    y = 0
+    z = self.review_responses.size
    self.review_responses.each do |res|
-    self.total_rate += res.rate
+    x += res.rate
     end
-    y = (self.total_rate / self.review_responses.size).to_f
+    y = (x / z).to_f
     self.update_column(:total_rate, y)
+
 end
 
 

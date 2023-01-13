@@ -11,6 +11,7 @@ class ProductsController < ApplicationController
 
   # GET /products/1
   def show 
+    @product.calculate_average
     @reviews = @product.reviews   
     @metrics = Category.find_by(id: @product.category_id).metrics
     @reviews.each do |review|
