@@ -48,5 +48,6 @@ end
 
 
 gem "jwt", "~> 2.6"
+gem 'friendly_id', '~> 5.4.0'
 
 #gem "simple_command", "~> 1.0"

@@ -18,10 +18,10 @@ class CategoriesController < ApplicationController
   # POST /categories
   def create
     @category = Category.new(category_params)
-    @category.cuid = @category.id
-
+    
     if @category.save
-      @category.cuid = @category.id
+      @category.update_attribute(:cuid, @category.id )
+      #@category.cuid = @category.id
       render json: @category, include: :metrics, status: :created
     else
       render json: @category.errors, status: :unprocessable_entity
