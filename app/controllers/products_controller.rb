@@ -5,6 +5,7 @@ class ProductsController < ApplicationController
 
   # GET /products
   def index
+    
     @products = Product.all
     render json: @products
   end
@@ -12,13 +13,11 @@ class ProductsController < ApplicationController
   # GET /products/1
   def show 
     @product.calculate_average
+    # @metric1 = @product.calculate_metrics
     @reviews = @product.reviews   
     @metrics = Category.find_by(id: @product.category_id).metrics
-    @reviews.each do |review|
-     @review_responses = review.review_responses
-    end
     
-    render json: {product: @product, metrics: @metrics, reviews: @reviews}
+    render json: {product: @product, metrics: @metrics, reviews: @reviews }
   end
 
   # POST /products
