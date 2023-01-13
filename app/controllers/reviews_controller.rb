@@ -18,7 +18,7 @@ class ReviewsController < ApplicationController
   def create
     
     @review = @reviewable.reviews.new(review_params)
-
+    
     if @review.save
       render json: @review, include: :review_responses, status: :created
     else

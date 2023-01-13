@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_13_084342) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_13_120824) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -87,8 +87,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_13_084342) do
     t.datetime "updated_at", null: false
     t.string "reviewable_type"
     t.bigint "reviewable_id"
+    t.float "total_rate", default: 0.0
     t.index ["product_id"], name: "index_reviews_on_product_id"
     t.index ["reviewable_type", "reviewable_id"], name: "index_reviews_on_reviewable"
+    t.index ["total_rate"], name: "index_reviews_on_total_rate"
   end
 
   create_table "users", force: :cascade do |t|
