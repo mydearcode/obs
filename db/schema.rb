@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_13_071716) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_13_084342) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -22,6 +22,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_13_071716) do
     t.integer "parent_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["slug"], name: "index_brands_on_slug", unique: true
   end
 
   create_table "categories", force: :cascade do |t|
@@ -30,6 +32,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_13_071716) do
     t.integer "parent_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["slug"], name: "index_categories_on_slug", unique: true
+  end
+
+  create_table "friendly_id_slugs", force: :cascade do |t|
+    t.string "slug", null: false
+    t.integer "sluggable_id", null: false
+    t.string "sluggable_type", limit: 50
+    t.string "scope"
+    t.datetime "created_at"
+    t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
+    t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
+    t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
   end
 
   create_table "metrics", force: :cascade do |t|
@@ -50,7 +65,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_13_071716) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug"
     t.index ["brand_id"], name: "index_products_on_brand_id"
+    t.index ["slug"], name: "index_products_on_slug", unique: true
+  end
+
+  create_table "review_responses", force: :cascade do |t|
+    t.integer "rate"
+    t.string "metric"
+    t.bigint "review_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["review_id"], name: "index_review_responses_on_review_id"
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -59,8 +85,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_13_071716) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "rate"
-    t.string "metric", null: false
     t.string "reviewable_type"
     t.bigint "reviewable_id"
     t.index ["product_id"], name: "index_reviews_on_product_id"
@@ -78,5 +102,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_13_071716) do
 
   add_foreign_key "metrics", "categories"
   add_foreign_key "products", "brands"
+  add_foreign_key "review_responses", "reviews"
   add_foreign_key "reviews", "products"
 end

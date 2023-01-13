@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
-  resources :reviews
-  resources :products
+  resources :products do
+    resources :reviews
+  end
+
   resources :brands
   resources :categories
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
