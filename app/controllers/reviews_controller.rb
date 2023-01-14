@@ -1,6 +1,8 @@
 class ReviewsController < ApplicationController
   before_action :set_review, only: %i[ show update destroy ]
   before_action :set_reviewable, except: :index
+  before_action :authenticate_request
+
 
   # GET /reviews
   def index
@@ -21,6 +23,7 @@ class ReviewsController < ApplicationController
     
     if @review.save
       @product = Product.find_by(id: @review.product_id).calculate_average
+      @product = Product.find_by(id: @review.product_id).calculate_metrics
       render json: @review, include: :review_responses, status: :created
     else
       render json: @review.errors, status: :unprocessable_entity
