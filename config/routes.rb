@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
+  
   resources :products do
+    resources :comments
     resources :reviews
   end
 
@@ -11,7 +13,7 @@ Rails.application.routes.draw do
   # root "articles#index"
   resources :users
   post 'auth/login', to: 'authentication#login'
-  post 'products/:id/send_review', to: "products#send_review"
+
 
 
 
