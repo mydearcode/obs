@@ -20,7 +20,7 @@ class ReviewsController < ApplicationController
   def create
     
     @review = @reviewable.reviews.new(review_params)
-    
+    @review.user_id = @current_user.id
     if @review.save
       @product = Product.find_by(id: @review.product_id).calculate_average
       @product = Product.find_by(id: @review.product_id).calculate_metrics
