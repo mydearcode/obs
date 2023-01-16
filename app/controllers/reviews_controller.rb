@@ -57,10 +57,10 @@ class ReviewsController < ApplicationController
       params.require(:review).permit(:category_id, :product_id, :user_id, :rev_comment, review_responses_attributes:[:metric, :rate])
     end
 
-    # def set_reviewable
-    #   resource, id = request.path.split('/')[1,2]
-    #   @reviewable = resource.singularize.classify.constantize.friendly.find(id)
-    # end
+    def set_reviewable
+      resource, id = request.path.split('/')[1,2]
+      @reviewable = resource.singularize.classify.constantize.friendly.find(id)
+    end
 
     
   
