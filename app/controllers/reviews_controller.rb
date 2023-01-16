@@ -3,6 +3,7 @@ class ReviewsController < ApplicationController
   before_action :set_reviewable, except: :index
   before_action :authenticate_request
   before_action :check_moderators, only: %i[ destroy update ]
+  before_action :check_owner, only: %i[ destroy update ]
 
 
   # GET /reviews
@@ -62,6 +63,11 @@ class ReviewsController < ApplicationController
       @reviewable = resource.singularize.classify.constantize.friendly.find(id)
     end
 
-    
+    def check_owner
+      if @review.user_id != @current_user.id || @current_user.moderator == false
+        render json: "You are not authorized.", status: :unprocessable_entity
+      else
+      end
+     end
   
 end

@@ -12,11 +12,14 @@ class ApplicationController < ActionController::API
   end
 
   def check_moderators
-    if @review.user_id != @current_user.id || @current_user.moderator == false
+    if @current_user.moderator == false
       render json: "You are not authorized.", status: :unprocessable_entity
     else
     end
-  end
+     end
+
+     
+
 
 
 end

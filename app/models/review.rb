@@ -3,6 +3,7 @@ class Review < ApplicationRecord
   belongs_to :parent, class_name: 'Review', optional: true
   has_many :review_responses, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
+  has_many :reports, as: :reportable, dependent: :destroy
   accepts_nested_attributes_for :review_responses
   after_save :calculate_total_amount
 

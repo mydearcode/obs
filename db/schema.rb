@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_16_102132) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_16_224639) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -87,6 +87,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_16_102132) do
     t.float "rate_4"
     t.index ["brand_id"], name: "index_products_on_brand_id"
     t.index ["slug"], name: "index_products_on_slug", unique: true
+  end
+
+  create_table "reports", force: :cascade do |t|
+    t.text "body"
+    t.integer "subject", default: 1, null: false
+    t.string "reportable_type", null: false
+    t.bigint "reportable_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reportable_type", "reportable_id"], name: "index_reports_on_reportable"
+    t.index ["reportable_type", "reportable_id"], name: "index_reports_on_reportable_type_and_reportable_id"
   end
 
   create_table "review_responses", force: :cascade do |t|
