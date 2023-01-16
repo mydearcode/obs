@@ -1,7 +1,7 @@
 class Product < ApplicationRecord
   belongs_to :brand
   has_many :reviews, as: :reviewable, dependent: :destroy
-  has_many :comments, as: :commentable, dependent: :destroy
+  #has_many :comments, as: :commentable, dependent: :destroy
 
   extend FriendlyId
   friendly_id :title, use: :slugged

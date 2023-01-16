@@ -2,6 +2,7 @@ class ReviewsController < ApplicationController
   before_action :set_review, only: %i[ show update destroy ]
   before_action :set_reviewable, except: :index
   before_action :authenticate_request
+  before_action :check_moderators, only: %i[ destroy update ]
 
 
   # GET /reviews
@@ -24,7 +25,7 @@ class ReviewsController < ApplicationController
     if @review.save
       @product = Product.find_by(id: @review.product_id).calculate_average
       @product = Product.find_by(id: @review.product_id).calculate_metrics
-      render json: @review, include: :review_responses, status: :created
+      render json: @review, include: :review_responses, include: @review.comments, status: :created
     else
       render json: @review.errors, status: :unprocessable_entity
     end
@@ -53,12 +54,14 @@ class ReviewsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def review_params
-      params.require(:review).permit(:category_id, :product_id, :user_id, review_responses_attributes:[:metric, :rate])
+      params.require(:review).permit(:category_id, :product_id, :user_id, :rev_comment, review_responses_attributes:[:metric, :rate])
     end
 
-    def set_reviewable
-      resource, id = request.path.split('/')[1,2]
-      @reviewable = resource.singularize.classify.constantize.friendly.find(id)
-    end
+    # def set_reviewable
+    #   resource, id = request.path.split('/')[1,2]
+    #   @reviewable = resource.singularize.classify.constantize.friendly.find(id)
+    # end
+
+    
   
 end

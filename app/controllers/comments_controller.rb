@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: %i[ show update destroy ]
-  before_action :set_commentable, except: :index
+  #before_action :set_commentable, except: :index
   # GET /comments
   def index
     @comments = Comment.all
@@ -10,7 +10,8 @@ class CommentsController < ApplicationController
 
   # GET /comments/1
   def show
-    render json: @comment
+    @replies = @comment.comments 
+    render json: {comment: @comment, replies: @replies}
   end
 
   # POST /comments
@@ -48,8 +49,20 @@ class CommentsController < ApplicationController
     def comment_params
       params.require(:comment).permit(:body)
     end
-    def set_commentable
-      resource, id = request.path.split('/')[1,2]
-      @commentable = resource.singularize.classify.constantize.friendly.find(id)
-    end
+
+    # def set_commentable
+    #   if params[:comment].present?
+    #     @commentable = Comment.find(params[:comment_id])
+        
+    #   elsif params[:category_id].present?
+    #     @commentable = Review.find(params[:review_id])
+    #   end
+    # end
+
+
+
+    # def set_commentable
+    #   resource, id = request.path.split('/')[3,4]
+    #   @commentable = resource.singularize.classify.constantize.find(id)
+    # end
 end

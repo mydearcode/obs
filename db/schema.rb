@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_14_230834) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_16_102132) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -107,6 +107,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_14_230834) do
     t.string "reviewable_type"
     t.bigint "reviewable_id"
     t.float "total_rate", default: 0.0
+    t.text "rev_comment"
     t.index ["product_id"], name: "index_reviews_on_product_id"
     t.index ["reviewable_type", "reviewable_id"], name: "index_reviews_on_reviewable"
     t.index ["total_rate"], name: "index_reviews_on_total_rate"
@@ -119,6 +120,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_14_230834) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "admin", default: false
+    t.boolean "super_moderator", default: false
+    t.boolean "moderator", default: false
   end
 
   add_foreign_key "metrics", "categories"
