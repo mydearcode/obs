@@ -5,6 +5,7 @@ class Review < ApplicationRecord
   accepts_nested_attributes_for :review_responses
   has_many :proofs, dependent: :destroy
   accepts_nested_attributes_for :proofs
+  has_many :proofs, dependent: :destroy
   has_many :photo_proofs, dependent: :destroy
   accepts_nested_attributes_for :photo_proofs
   has_many :comments, as: :commentable, dependent: :destroy

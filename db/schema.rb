@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_17_223421) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_18_121439) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -97,6 +97,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_17_223421) do
     t.index ["slug"], name: "index_products_on_slug", unique: true
   end
 
+  create_table "proof_pictures", force: :cascade do |t|
+    t.bigint "review_id", null: false
+    t.text "image_data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["review_id"], name: "index_proof_pictures_on_review_id"
+  end
+
   create_table "proofs", force: :cascade do |t|
     t.bigint "review_id", null: false
     t.string "code"
@@ -160,6 +168,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_17_223421) do
   add_foreign_key "metrics", "categories"
   add_foreign_key "photo_proofs", "reviews"
   add_foreign_key "products", "brands"
+  add_foreign_key "proof_pictures", "reviews"
   add_foreign_key "proofs", "reviews"
   add_foreign_key "review_responses", "reviews"
   add_foreign_key "reviews", "products"

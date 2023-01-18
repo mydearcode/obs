@@ -23,6 +23,8 @@ class ReviewsController < ApplicationController
     
     @review = @reviewable.reviews.new(review_params)
     @review.user_id = @current_user.id
+    @review.product_id = @reviewable.id
+    @review.category_id = @reviewable.category_id
     if @review.save
       @product = Product.find_by(id: @review.product_id).calculate_average
       @product = Product.find_by(id: @review.product_id).calculate_metrics
@@ -55,7 +57,7 @@ class ReviewsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def review_params
-      params.require(:review).permit(:category_id, :product_id, :user_id, :rev_comment, review_responses_attributes:[:metric, :rate], proofs_attributes:[:code, :verified], photo_proofs_attributes:[:image])
+      params.require(:review).permit(:category_id, :product_id, :user_id, :rev_comment, :have_proof, review_responses_attributes:[:metric, :rate], proofs_attributes:[:code, :verified], photo_proofs_attributes:[:image])
     end
 
     def set_reviewable

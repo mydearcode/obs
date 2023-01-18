@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
+  resources :proof_pictures
   resources :reports
   
   resources :products do
     resources :reviews do 
       resources :comments, module: :reviews
       resources :reports, module: :reviews
+    
     end
   end
   resources :comments do
