@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_16_224639) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_17_223421) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -65,6 +65,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_16_224639) do
     t.index ["category_id"], name: "index_metrics_on_category_id"
   end
 
+  create_table "photo_proofs", force: :cascade do |t|
+    t.jsonb "image_data"
+    t.bigint "review_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["review_id"], name: "index_photo_proofs_on_review_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "title"
     t.text "info"
@@ -87,6 +95,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_16_224639) do
     t.float "rate_4"
     t.index ["brand_id"], name: "index_products_on_brand_id"
     t.index ["slug"], name: "index_products_on_slug", unique: true
+  end
+
+  create_table "proofs", force: :cascade do |t|
+    t.bigint "review_id", null: false
+    t.string "code"
+    t.boolean "verified", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["review_id"], name: "index_proofs_on_review_id"
   end
 
   create_table "reports", force: :cascade do |t|
@@ -120,6 +137,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_16_224639) do
     t.bigint "reviewable_id"
     t.float "total_rate", default: 0.0
     t.text "rev_comment"
+    t.boolean "have_proof", default: false
+    t.boolean "verified", default: false
+    t.boolean "invited", default: false
     t.index ["product_id"], name: "index_reviews_on_product_id"
     t.index ["reviewable_type", "reviewable_id"], name: "index_reviews_on_reviewable"
     t.index ["total_rate"], name: "index_reviews_on_total_rate"
@@ -138,7 +158,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_16_224639) do
   end
 
   add_foreign_key "metrics", "categories"
+  add_foreign_key "photo_proofs", "reviews"
   add_foreign_key "products", "brands"
+  add_foreign_key "proofs", "reviews"
   add_foreign_key "review_responses", "reviews"
   add_foreign_key "reviews", "products"
 end

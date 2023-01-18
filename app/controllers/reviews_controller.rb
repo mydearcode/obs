@@ -15,7 +15,7 @@ class ReviewsController < ApplicationController
 
   # GET /reviews/1
   def show
-    render json: @review, include: :review_responses
+    render json: @review, include: [:review_responses, :proofs, :photo_proofs]
   end
 
   # POST /reviews
@@ -55,7 +55,7 @@ class ReviewsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def review_params
-      params.require(:review).permit(:category_id, :product_id, :user_id, :rev_comment, review_responses_attributes:[:metric, :rate])
+      params.require(:review).permit(:category_id, :product_id, :user_id, :rev_comment, review_responses_attributes:[:metric, :rate], proofs_attributes:[:code, :verified], photo_proofs_attributes:[:image])
     end
 
     def set_reviewable
